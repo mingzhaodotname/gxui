@@ -6,6 +6,9 @@ package main
 
 import (
 	"time"
+	"fmt"
+	"os"
+	"strconv"
 
 	"github.com/google/gxui"
 	"github.com/google/gxui/drivers/gl"
@@ -22,7 +25,7 @@ func appMain(driver gxui.Driver) {
 		panic(err)
 	}
 
-	window := theme.CreateWindow(380, 100, "Hi")
+	window := theme.CreateWindow(1000, 1000, "Hi")
 	window.SetBackgroundBrush(gxui.CreateBrush(gxui.Gray50))
 
 	label := theme.CreateLabel()
@@ -53,5 +56,16 @@ func appMain(driver gxui.Driver) {
 }
 
 func main() {
+	arg1 := os.Args[1]
+	seconds, err := strconv.Atoi(arg1)
+	if err != nil {
+		fmt.Println("error: ", err)
+		os.Exit(1)
+	}
+
+	fmt.Printf("sleeping %d seconds ......\n", seconds)
+	time.Sleep(time.Duration(seconds) * time.Second)
+	time.Sleep(1 * time.Second)
+
 	gl.StartDriver(appMain)
 }
